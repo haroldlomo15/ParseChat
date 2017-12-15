@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        Parse.initialize(
+            with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
+                configuration.applicationId = "parseChat"
+                configuration.clientKey = "ouiyhngjgu76tf7fugh78j"  // set to nil assuming you have not set clientKey
+                configuration.server = "http://fierce-ocean-95885.herokuapp.com/parse"
+            })
+        )
+        
+        login()
         return true
     }
 
@@ -42,5 +53,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    func login() {
+        if PFUser.current() != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let naviVC = storyboard.instantiateViewController(withIdentifier: "homeVC") as! UINavigationController
+            
+            window?.rootViewController = naviVC
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "logInVC") as UIViewController
+            
+            window?.rootViewController = loginVC
+            
+        }
+    }
+    
 }
 
