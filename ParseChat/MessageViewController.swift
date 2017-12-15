@@ -22,17 +22,12 @@ class MessageViewController: UIViewController, UITextFieldDelegate, UICollection
 
         collectionView.delegate = self
         collectionView.dataSource = self
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshing), userInfo: nil, repeats: true)
         
-
-        
-      
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(onTimer), userInfo: nil, repeats: true)
- 
-       
     }
 
     
-    @objc func onTimer() {
+    @objc func refreshing() {
         // Add code to be run periodically
         let query = PFQuery(className:"Message")
         query.order(byDescending: "createdAt")
@@ -68,16 +63,10 @@ class MessageViewController: UIViewController, UITextFieldDelegate, UICollection
         let message = Messages[indexPath.row]
         cell.messageLabel.text = message["text"] as! String!
         cell.usernameLabel.text = message["username"] as! String!
-        //lets modify the bubbleView's width somehow???
-        
+       
         
         cell.layer.cornerRadius = 20.0
-        //  self.contentView.layer.borderWidth = 1.0
-        //    self.contentView.layer.borderColor = UIColor.clear.cgColor
         cell.layer.masksToBounds = true
-        
-       // cell.bubblewidthAnchor?.constant = estimateFrameForText(message.text!).width + 32
-        
         return cell
     }
     
@@ -120,7 +109,7 @@ class MessageViewController: UIViewController, UITextFieldDelegate, UICollection
         self.inputTextField.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
         
         let separatorLineView = UIView()
-        separatorLineView.backgroundColor = UIColor.gray //NB*****************
+        separatorLineView.backgroundColor = UIColor.gray
         separatorLineView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(separatorLineView)
         //x,y,w,h
@@ -181,26 +170,28 @@ class MessageViewController: UIViewController, UITextFieldDelegate, UICollection
         message["text"] = inputTextField.text
         message.saveInBackground { (success : Bool, error: Error?) in
             if error == nil {
-                
-                //Successs sending message
-              //  print(self.inputTextField.text!)
                 self.inputTextField.text = ""
-                
             }
             else
             {
                 // error occured
-                let errorString = error!.localizedDescription as NSString
-                print("****** printed error *********")
-                print(errorString)
+                let error = error!.localizedDescription as NSString
+                print(error)
             }
         }
-        
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handleSend()
         return true
+    }
+    @IBAction func logOutDidTapped(_ sender: Any) {
+        PFUser.logOutInBackground { (error) in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "logInVC") as UIViewController
+            self.present(loginVC, animated: true, completion: nil)
+        }
+        
     }
     
     
