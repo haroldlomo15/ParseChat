@@ -13,7 +13,7 @@ class MessageViewController: UIViewController, UITextFieldDelegate, UICollection
     
     var Messages: [PFObject] = []
 
-    @IBOutlet weak var tableView: UITableView!
+
     @IBOutlet weak var collectionView: UICollectionView!
     
   
@@ -22,6 +22,7 @@ class MessageViewController: UIViewController, UITextFieldDelegate, UICollection
 
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView?.alwaysBounceVertical = true
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshing), userInfo: nil, repeats: true)
         
     }
@@ -67,7 +68,32 @@ class MessageViewController: UIViewController, UITextFieldDelegate, UICollection
         
         cell.layer.cornerRadius = 20.0
         cell.layer.masksToBounds = true
+        
+       // print(estimateFrameForText(message["text"] as! String!).width + 32)
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        var height: CGFloat = 0
+        
+        let message = Messages[indexPath.row]
+        let text = message["text"] as! String!
+        
+        //get estimated height somehow????
+       
+        height = estimateFrameForText(text!).height + 20
+        
+        
+        let width = UIScreen.main.bounds.width
+        return CGSize(width: width, height: height)
+    }
+    
+    fileprivate func estimateFrameForText(_ text: String) -> CGRect {
+        let size = CGSize(width: 400, height: 600)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)], context: nil)
     }
     
     
