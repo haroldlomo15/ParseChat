@@ -13,7 +13,7 @@ The following **required** user stories are complete:
 - [x] User sees alerts for login exceptions, i.e. "account already exists", "wrong credentials", etc. (+1pt)
 - [x] User can compose and send chat messages (+2pt)
 - [x] User can view a list of chat messages in chronological order (+2pt)
-- [ ] Automatically Adjust Cell Size to Fit Text (+1pt)
+- [x] Automatically Adjust Cell Size to Fit Text (+1pt)
 - [x] Username of chat author is displayed in each chat message (+2pt)
 - [x] Persist Logged in User (+1pt)
 
@@ -38,7 +38,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://firebasestorage.googleapis.com/v0/b/datasto-61f2f.appspot.com/o/parseChat.gif?alt=media&token=6fc2a97a-a23b-49e2-8d5d-2b6522b58a20' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://firebasestorage.googleapis.com/v0/b/datasto-61f2f.appspot.com/o/parseChat2.gif?alt=media&token=1c2ad621-27a7-4729-94e2-9f029b935e83' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
